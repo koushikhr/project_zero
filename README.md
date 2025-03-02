@@ -31,10 +31,21 @@ lib/
 └── main.dart
 ```
 
-### Screenshots 📸
 
-### *Splash Screen*	*Login Screen*
-<img src="./assets/screenshots/splash.png" width=200>	<img src="./assets/screenshots/login.png" width=200>
+#### Flutter App Screenshots
+
+<table>
+  <tr>
+    <td>Splash Screen</td>
+     <td>Login Screen</td>
+     <td>Register Screen</td>
+  </tr>
+  <tr>
+    <td><img src="./assets/screenshots/splash.png" width=270 height=480></td>
+    <td><img src="./assets/screenshots/login.png" width=270 height=480></td>
+    <td><img src="./assets/screenshots/register.png" width=270 height=480></td>
+  </tr>
+ </table>
 
 ### Roadmap 🗺️
 - Backend Auth Integration
