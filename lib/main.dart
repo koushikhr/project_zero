@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project_zero/features/auth/presentation/screens/login_screen.dart';
-import 'package:project_zero/features/auth/presentation/screens/splash_screen.dart';
+import 'package:project_zero/routes/app_routes.dart';
+import 'package:project_zero/routes/route_generator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,17 +16,10 @@ class MyApp extends StatelessWidget {
       title: 'Project Zero',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        textButtonTheme: TextButtonThemeData(
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-          ),
-        ),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/login': (context) => const LoginScreen(),
-      },
+      initialRoute: AppRoutes.login,
+      onGenerateRoute: RouteGenerator.generateRoute,
     );
   }
 }

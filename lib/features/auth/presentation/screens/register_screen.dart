@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_zero/core/constants/app_colors.dart';
 import 'package:project_zero/core/constants/assets.dart';
 import 'package:project_zero/core/utils/validators.dart';
+import 'package:project_zero/routes/app_routes.dart';
 import 'login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -99,14 +100,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
               child: SingleChildScrollView(
                 physics: const ClampingScrollPhysics(),
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Form(
                     key: _formKey,
-                    autovalidateMode: _showValidationErrors 
-                        ? AutovalidateMode.always
-                        : AutovalidateMode.disabled,
+                    autovalidateMode:
+                        _showValidationErrors
+                            ? AutovalidateMode.always
+                            : AutovalidateMode.disabled,
                     child: Column(
                       children: [
                         const SizedBox(height: 30),
@@ -135,11 +138,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _nameController,
                           focusNode: _nameFocus,
                           textInputAction: TextInputAction.next,
-                          validator: (value) => value == null || value.isEmpty
-                              ? 'Please enter your full name'
-                              : value.length < 3
-                                  ? 'Name must be at least 3 characters'
-                                  : null,
+                          validator:
+                              (value) =>
+                                  value == null || value.isEmpty
+                                      ? 'Please enter your full name'
+                                      : value.length < 3
+                                      ? 'Name must be at least 3 characters'
+                                      : null,
                           onFieldSubmitted: (_) => _emailFocus.requestFocus(),
                           decoration: _buildDecoration(
                             hintText: 'Full Name',
@@ -163,7 +168,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                             return null;
                           },
-                          onFieldSubmitted: (_) => _passwordFocus.requestFocus(),
+                          onFieldSubmitted:
+                              (_) => _passwordFocus.requestFocus(),
                           decoration: _buildDecoration(
                             hintText: 'Email',
                             prefixIcon: Icons.email_outlined,
@@ -177,21 +183,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           focusNode: _passwordFocus,
                           obscureText: _obscurePassword,
                           textInputAction: TextInputAction.next,
-                          validator: (value) => Validators.validatePassword(value),
-                          onFieldSubmitted: (_) => _confirmPasswordFocus.requestFocus(),
+                          validator:
+                              (value) => Validators.validatePassword(value),
+                          onFieldSubmitted:
+                              (_) => _confirmPasswordFocus.requestFocus(),
                           decoration: _buildDecoration(
                             hintText: 'Password',
                             prefixIcon: Icons.lock_outlined,
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscurePassword 
-                                    ? Icons.visibility_off 
+                                _obscurePassword
+                                    ? Icons.visibility_off
                                     : Icons.visibility,
                                 size: 20,
                               ),
-                              onPressed: () => setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              }),
+                              onPressed:
+                                  () => setState(() {
+                                    _obscurePassword = !_obscurePassword;
+                                  }),
                             ),
                           ),
                         ),
@@ -218,14 +227,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             prefixIcon: Icons.lock_outlined,
                             suffixIcon: IconButton(
                               icon: Icon(
-                                _obscureConfirmPassword 
-                                    ? Icons.visibility_off 
+                                _obscureConfirmPassword
+                                    ? Icons.visibility_off
                                     : Icons.visibility,
                                 size: 20,
                               ),
-                              onPressed: () => setState(() {
-                                _obscureConfirmPassword = !_obscureConfirmPassword;
-                              }),
+                              onPressed:
+                                  () => setState(() {
+                                    _obscureConfirmPassword =
+                                        !_obscureConfirmPassword;
+                                  }),
                             ),
                           ),
                         ),
@@ -276,22 +287,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             minimumSize: Size.zero,
                             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           ),
-                          onPressed: () => Navigator.pushReplacement(
-                            context,
-                            PageRouteBuilder(
-                              transitionDuration: const Duration(milliseconds: 500),
-                              pageBuilder: (_, __, ___) => const LoginScreen(),
-                              transitionsBuilder: (_, animation, __, child) {
-                                return SlideTransition(
-                                  position: animation.drive(Tween<Offset>(
-                                    begin: const Offset(-1, 0),
-                                    end: Offset.zero,
-                                  ).chain(CurveTween(curve: Curves.easeInOutCubic))),
-                                  child: child,
-                                );
-                              },
-                            ),
-                          ),
+                          onPressed:
+                              () => Navigator.pushReplacementNamed(
+                                context,
+                                AppRoutes.login,
+                                arguments: 'fromRegister',
+                              ),
+
                           child: RichText(
                             text: const TextSpan(
                               children: [
@@ -328,9 +330,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   void _submitForm() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Processing Data')),
-    );
-    // TODO: Add registration logic
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Processing Data')));
+      Navigator.pushReplacementNamed(context, AppRoutes.home);
+    }
   }
 }

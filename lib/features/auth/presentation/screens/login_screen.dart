@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project_zero/core/constants/app_colors.dart';
 import 'package:project_zero/core/constants/assets.dart';
 import 'package:project_zero/features/auth/presentation/screens/register_screen.dart';
+import 'package:project_zero/routes/app_routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -42,6 +43,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 30),
                     // Email Field
                     TextFormField(
+                      key: const Key('email_field'),
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
                         prefixIcon: const Icon(
@@ -97,6 +99,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     // Password Field
                     TextFormField(
+                      key: const Key('password_field'),
                       obscureText: true,
                       style: const TextStyle(color: AppColors.textPrimary),
                       decoration: InputDecoration(
@@ -172,7 +175,12 @@ class LoginScreen extends StatelessWidget {
                           ),
                           minimumSize: const Size(double.infinity, 46),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            AppRoutes.home,
+                          );
+                        },
                         child: const Text(
                           'Sign In',
                           style: TextStyle(
@@ -261,44 +269,11 @@ class LoginScreen extends StatelessWidget {
                                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                               ),
                               onPressed: () {
-                                Navigator.push(
+                                Navigator.pushNamed(
                                   context,
-                                  PageRouteBuilder(
-                                    transitionDuration: const Duration(
-                                      milliseconds: 500,
-                                    ), // Custom duration
-                                    pageBuilder:
-                                        (
-                                          context,
-                                          animation,
-                                          secondaryAnimation,
-                                        ) => const RegisterScreen(),
-                                    transitionsBuilder: (
-                                      context,
-                                      animation,
-                                      secondaryAnimation,
-                                      child,
-                                    ) {
-                                      const begin = Offset(1.0, 0.0);
-                                      const end = Offset.zero;
-                                      const curve =
-                                          Curves
-                                              .easeInOutCubic; // Smoother curve
-
-                                      var tween = Tween(
-                                        begin: begin,
-                                        end: end,
-                                      ).chain(CurveTween(curve: curve));
-                                      var offsetAnimation = animation.drive(
-                                        tween,
-                                      );
-
-                                      return SlideTransition(
-                                        position: offsetAnimation,
-                                        child: child,
-                                      );
-                                    },
-                                  ),
+                                  AppRoutes.register,
+                                  arguments:
+                                      'fromLogin', // Optional: Add if needed
                                 );
                               },
                               child: const Text(
